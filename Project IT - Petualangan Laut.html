@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samudra Legendaris: Perompak & Aliansi</title>
+    <style>
+        :root {
+            --bg-color: #0b1329;
+            --panel-bg: #132247;
+            --accent-gold: #f39c12;
+            --accent-blue: #3498db;
+            --accent-red: #e74c3c;
+            --text-color: #ecf0f1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--panel-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 2px solid var(--accent-gold);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            color: var(--accent-gold);
+            font-size: 26px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .stat-card h3 {
+            margin: 0 0 5px 0;
+            font-size: 13px;
+            color: #bdc3c7;
+            text-transform: uppercase;
+        }
+
+        .stat-card p {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section-box {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid #2c3e50;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .section-box h2 {
+            margin-top: 0;
+            font-size: 18px;
+            color: var(--accent-gold);
+            border-bottom: 1px solid #34495e;
+            padding-bottom: 8px;
+        }
+
+        .log-box {
+            background: #060913;
+            border: 1px solid #1a252f;
+            border-radius: 6px;
+            padding: 10px;
+            height: 140px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 13px;
+            color: #2ecc71;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+            margin: 5px 0;
+            width: 100%;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button.btn-red { background-color: var(--accent-red); }
+        button.btn-gold { background-color: var(--accent-gold); color: #000; }
+        button:disabled { background-color: #7f8c8d; cursor: not-allowed; }
+
+        .upgrade-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.05);
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .upgrade-info {
+            font-size: 13px;
+        }
+
+        .upgrade-info span {
+            display: block;
+            color: #95a5a6;
+            font-size: 11px;
+        }
+
+        .upgrade-item button {
+            width: auto;
+            padding: 6px 12px;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🏴‍☠️ Samudra Legendaris: Perompak & Aliansi</h1>
+    </header>
+
+    <!-- STATISTIK UTAMA -->
+    <div class="stats-grid">
+        <div class="stat-card" style="border-left-color: var(--accent-gold);">
+            <h3>Emas</h3>
+            <p id="gold">500 🪙</p>
+        </div>
+        <div class="stat-card" style="border-left-color: var(--accent-red);">
+            <h3>Kekuatan Kapal</h3>
+            <p id="power">15 ⚔️</p>
+        </div>
+        <div class="stat-card" style="border-left-color: #2ecc71;">
+            <h3>Aliansi & Level</h3>
+            <p id="alliance-level">Level 1 (0/100 Poin)</p>
+        </div>
+        <div class="stat-card" style="border-left-color: #9b59b6;">
+            <h3>Armada Kapal</h3>
+            <p id="ships-count">1 ⛵</p>
+        </div>
+    </div>
+
+    <div class="main-layout">
+        <!-- KOLOM KIRI: PETUALANGAN & AKSI -->
+        <div class="section-box">
+            <div>
+                <h2>Jelajah & Pertempuran</h2>
+                <div class="log-box" id="game-log">
+                    [Sistem] Selamat datang di lautan lepas, Kapten! Kumpulkan emas, perluas aliansi hingga level 15, dan taklukkan samudra!
+                </div>
+            </div>
+            <div>
+                <button onclick="sailTheSea()" class="btn-gold">🗺️ Berlayar & Cari Harta / Lawan</button>
+                <button onclick="raidMerchant()" class="btn-red">⚔️ Serbu Kapal Dagang & Rebut</button>
+            </div>
+        </div>
+
+        <!-- KOLOM KANAN: TOKO UPGRADE & ALIANSI -->
+        <div class="section-box">
+            <h2>Toko Galangan Kapal & Aliansi</h2>
+            
+            <div class="upgrade-item">
+                <div class="upgrade-info">
+                    <strong>Meriam Kuat</strong>
+                    <span id="lvl-cannon">Level: 1 | Kekuatan +5</span>
+                </div>
+                <button onclick="upgradeCannon()">Beli (<span id="cost-cannon">100</span> 🪙)</button>
+            </div>
+
+            <div class="upgrade-item">
+                <div class="upgrade-info">
+                    <strong>Lambung Baja</strong>
+                    <span id="lvl-hull">Level: 1 | Kapasitas Rebut +1</span>
+                </div>
+                <button onclick="upgradeHull()">Beli (<span id="cost-hull">150</span> 🪙)</button>
+            </div>
+
+            <div class="upgrade-item">
+                <div class="upgrade-info">
+                    <strong>Perluas Aliansi (Naik Level)</strong>
+                    <span id="alliance-status">Syarat: 100 Poin Aliansi</span>
+                </div>
+                <button onclick="levelUpAlliance()" class="btn-gold" id="btn-alliance">Naikkan Level</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Status Permainan
+    let game = {
+        gold: 500,
+        power: 15,
+        ships: 1,
+        alliancePoints: 0,
+        allianceLevel: 1,
+        maxLevel: 15,
+        cannonLvl: 1,
+        cannonCost: 100,
+        hullLvl: 1,
+        hullCost: 150
+    };
+
+    const allianceTitles = [
+        "1. Pengemis Pelabuhan",
+        "2. Perompak Pemula",
+        "3. Kelompok Pantai Bebas",
+        "4. Penguasa Teluk Kecil",
+        "5. Aliansi Bendera Hitam",
+        "6. Konfederasi Karang",
+        "7. Penguasa Selat Sempit",
+        "8. Raja Bajak Laut Lokal",
+        "9. Armada Segitiga Emas",
+        "10. Aliansi Samudra Barat",
+        "11. Pakta Bajak Laut Besar",
+        "12. Penguasa Tujuh Lautan",
+        "13. Teror Armada Kerajaan",
+        "14. Legenda Gelap Samudra",
+        "15. Penguasa Mutlak Samudra (MAJESTY)"
+    ];
+
+    function log(message) {
+        const logBox = document.getElementById("game-log");
+        logBox.innerHTML += `<br>[${new Date().toLocaleTimeString()}] ${message}`;
+        logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    function updateUI() {
+        document.getElementById("gold").innerText = game.gold + " 🪙";
+        document.getElementById("power").innerText = game.power + " ⚔️";
+        document.getElementById("ships-count").innerText = game.ships + " ⛵";
+        
+        let currentTitle = allianceTitles[game.allianceLevel - 1] || "Maksimal";
+        let nextTarget = game.allianceLevel * 100;
+        
+        if (game.allianceLevel >= game.maxLevel) {
+            document.getElementById("alliance-level").innerText = `Level 15 (MAX): ${currentTitle}`;
+            document.getElementById("alliance-status").innerText = "Status: Mencapai Puncak Kejayaan!";
+            document.getElementById("btn-alliance").disabled = true;
+        } else {
+            document.getElementById("alliance-level").innerText = `Level ${game.allianceLevel} (${game.alliancePoints}/${nextTarget} Poin)`;
+            document.getElementById("alliance-status").innerText = `Gelar: ${currentTitle} (Butuh ${nextTarget} Poin)`;
+        }
+
+        document.getElementById("lvl-cannon").innerText = `Level: ${game.cannonLvl} | Kekuatan +${game.cannonLvl * 5}`;
+        document.getElementById("cost-cannon").innerText = game.cannonCost;
+
+        document.getElementById("lvl-hull").innerText = `Level: ${game.hullLvl} | Kapasitas Rebut +${game.hullLvl}`;
+        document.getElementById("cost-hull").innerText = game.hullCost;
+    }
+
+    // Aksi 1: Berlayar (Mendapatkan Emas atau Poin Aliansi)
+    function sailTheSea() {
+        let eventType = Math.random();
+        if (eventType < 0.4) {
+            let foundGold = Math.floor(Math.random() * 80) + 30;
+            game.gold += foundGold;
+            log(`🗺️ Anda menemukan pulau tersembunyi dan merampas harta senilai ${foundGold} koin emas!`);
+        } else if (eventType < 0.8) {
+            let gainedPoints = Math.floor(Math.random() * 25) + 10;
+            game.alliancePoints += gainedPoints;
+            log(`🤝 Berhasil meyakinkan kapten lain untuk bergabung. Mendapat ${gainedPoints} Poin Aliansi.`);
+        } else {
+            let stormDamage = Math.floor(Math.random() * 20) + 10;
+            game.gold = Math.max(0, game.gold - stormDamage);
+            log(`⛈️ Badai besar menerjang armada! Anda kehilangan persediaan senilai ${stormDamage} emas.`);
+        }
+        updateUI();
+    }
+
+    // Aksi 2: Serbu & Rebut Kapal
+    function raidMerchant() {
+        let requiredPower = game.allianceLevel * 8 + 10;
+        if (game.power < requiredPower) {
+            log(`❌ Serangan Gagal! Kapal musuh terlalu kuat (Butuh kekuatan minimal ${requiredPower}). Upgrade kapal Anda!`);
+            return;
+        }
+
+        let lootGold = Math.floor(Math.random() * 150) + 80;
+        let gainedPoints = Math.floor(Math.random() * 30) + 15;
+        game.gold += lootGold;
+        game.alliancePoints += gainedPoints;
+
+        // Kemungkinan merebut kapal musuh
+        let chanceToCapture = Math.random();
+        if (chanceToCapture < (0.3 + (game.hullLvl * 0.05))) {
+            game.ships += 1;
+            game.power += 3;
+            log(`🎉 Kemenangan Besar! Anda menaklukkan kapal musuh dan **merebutnya** ke dalam armada! (Total Kapal: ${game.ships})`);
+        } else {
+            log(`⚔️ Perompakan sukses! Anda menjarah ${lootGold} emas dan mendapat ${gainedPoints} poin aliansi.`);
+        }
+        updateUI();
+    }
+
+    // Toko: Upgrade Meriam
+    function upgradeCannon() {
+        if (game.gold >= game.cannonCost) {
+            game.gold -= game.cannonCost;
+            game.power += 5;
+            game.cannonLvl++;
+            game.cannonCost = Math.floor(game.cannonCost * 1.5);
+            log(`🔫 Berhasil meng-upgrade Meriam ke Level ${game.cannonLvl}! Kekuatan bertambah.`);
+            updateUI();
+        } else {
+            log(`⚠️ Emas tidak cukup untuk meng-upgrade meriam.`);
+        }
+    }
+
+    // Toko: Upgrade Lambung
+    function upgradeHull() {
+        if (game.gold >= game.hullCost) {
+            game.gold -= game.hullCost;
+            game.hullLvl++;
+            game.hullCost = Math.floor(game.hullCost * 1.6);
+            log(`🛡️ Berhasil meng-upgrade Lambung Kapal ke Level ${game.hullLvl}! Peluang merebut kapal meningkat.`);
+            updateUI();
+        } else {
+            log(`⚠️ Emas tidak cukup untuk meng-upgrade lambung.`);
+        }
+    }
+
+    // Naik Level Aliansi (1 - 15)
+    function levelUpAlliance() {
+        let requiredPoints = game.allianceLevel * 100;
+        if (game.allianceLevel >= game.maxLevel) return;
+
+        if (game.alliancePoints >= requiredPoints) {
+            game.alliancePoints -= requiredPoints;
+            game.allianceLevel++;
+            log(`🌟 SELAMAT! Aliansi perompak naik ke Level ${game.allianceLevel}: **${allianceTitles[game.allianceLevel - 1]}**!`);
+            updateUI();
+        } else {
+            log(`⚠️ Poin Aliansi belum cukup. Butuh ${requiredPoints} poin untuk naik ke level berikutnya.`);
+        }
+    }
+
+    // Inisialisasi awal UI
+    updateUI();
+</script>
+
+</body>
+</html>
